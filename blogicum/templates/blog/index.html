@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <img src="{% static 'img/logo.png' %}" alt="Логотип блога">
+        <nav>
+            <a href="{% url 'pages:about' %}">О проекте</a>
+            <a href="{% url 'pages:rules' %}">Правила</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h1>Добро пожаловать в блог!</h1>
+        
+        {% for post in posts %}
+        <article>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.pub_date|date:"d E Y" }}</p>
+            <p>Категория: <a href="{% url 'blog:category_posts' post.category.slug %}">{{ post.category.title }}</a></p>
+            <p>{{ post.text|truncatewords:30 }}</p>
+            <a href="{% url 'blog:post_detail' post.id %}">Читать далее</a>
+        </article>
+        {% endfor %}
+        
+    </main>
+    
+    <footer>
+        <p>© Блогикум</p>
+    </footer>
+</body>
+</html>
